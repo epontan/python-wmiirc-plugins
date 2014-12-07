@@ -14,12 +14,12 @@ def check_dialog(ref, toggle=True):
     return False
 
 
-def dialog(message, ref=None,
-        colors=wmii.cache['normcolors'], font=wmii.cache['font'],
-        toggle=True):
-
+def dialog(message, ref=None, colors=None, font=None, toggle=True):
     if ref and check_dialog(ref, toggle):
         return
+
+    if not colors: colors = wmii.cache['normcolors']
+    if not font: font = wmii.cache['font']
 
     dialog = call('wmiir', 'setsid', 'wmii-dialog',
             '-fn', font,
