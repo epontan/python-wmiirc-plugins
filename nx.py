@@ -40,7 +40,7 @@ class NXHandler(object):
         if not self.win:
             return
         pos = _point(_RE_POS, 'xdotool', 'getmouselocation')
-        if self.win.id == Client('sel').id:
+        if self.win == Client('sel'):
             self.pos_nx = pos
             if self.pos_dpy:
                 x, y = self.pos_dpy
@@ -54,8 +54,8 @@ class NXHandler(object):
                 x, y = self.pos_nx
             else:
                 x, y = map(lambda v: v / 2, _point(_RE_WIN_GEO,
-                    'xdotool', 'getwindowgeometry', self.win.id))
-            call('xdotool', 'mousemove', '--window', self.win.id, str(x), str(y),
+                    'xdotool', 'getwindowgeometry', str(self.win.id)))
+            call('xdotool', 'mousemove', '--window', str(self.win.id), str(x), str(y),
                     background=True)
 
     def reset(self):
