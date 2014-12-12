@@ -56,9 +56,9 @@ class Work(object):
             now = datetime.now()
             today = self._today(now)
             time = now.strftime('%Y-%m-%d %H:%M:%S')
-            record = '%s|%s|%s' % (state, time, '|'.join(activity))
+            record = u'%s|%s|%s' % (state, time, u'|'.join(activity))
             self.work_time.analyze(record)
-            open(today, 'a').write('%s\n' % record)
+            open(today, 'a').write(u'%s\n' % record)
 
     def _loop(self):
         while self.active:
@@ -69,7 +69,7 @@ class Work(object):
                     self.track('UNLOCKED')
             tag = Tag('sel').id
             try:
-                props = Client('sel').props
+                props = unicode(Client('sel').props)
             except:
                 props = 'NULL'
             self.track('NORMAL', tag, props)
