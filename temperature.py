@@ -10,7 +10,7 @@ _NVIDIA = re.compile(r': (\d+)\.$'), 'nvidia-settings', '-q', 'GPUCoreTemp'
 _ATI = re.compile(r' (\d+)\..* C'), 'aticonfig', '--odgt'
 
 _HWMON_PATH = '/sys/class/hwmon'
-_TEMP_INPUT = 'temp1_input'
+_TEMP_INPUT = re.compile(r'temp\d+_input')
 
 class Temperature(object):
 
