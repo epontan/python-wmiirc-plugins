@@ -58,7 +58,7 @@ class Battery(object):
             capacity = int(_read(self.bat_capacity_path))
             if capacity > 100: capacity = 100
             online = int(_read(self.ac_online_path))
-            if online and self.warned:
+            if (online or capacity > _WARNING_LEVEL) and self.warned:
                 self.colors = self.normcolors
                 monitor.button.colors = self.colors
                 check_dialog(_WARNING_NAME)
