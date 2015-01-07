@@ -37,9 +37,9 @@ class NetworkManager(object):
         dialog(call('nm-tool'), name)
 
     def _handle_connection(self, path):
-        ap_path = _get(path, _NM_CONN_ACTIVE, 'SpecificObject')
+        ap_path = _get(path, _NM_CONN_ACTIVE, 'SpecificObject', _NM_IFACE)
         if ap_path.startswith(_NM_AP_PATH):
-            strength = int(_get(ap_path, _NM_ACCESS_POINT, 'Strength'))
+            strength = int(_get(ap_path, _NM_ACCESS_POINT, 'Strength', _NM_IFACE))
             self.button.label = 'N: %2d%%' % strength
             if self.ap_signal is not None:
                 self.ap_signal.remove()
@@ -138,8 +138,10 @@ def _add(func, iface, name, path=None):
     return get_system_bus().add_signal_receiver(
             func, dbus_interface=iface, signal_name=name, path=path)
 
-def _get(path, iface, name):
-    obj = get_system_bus().get_object(iface, path)
+def _get(path, iface, name, bus_iface=None):
+    if not bus_iface:
+        bus_iface = iface
+    obj = get_system_bus().get_object(bus_iface, path)
     return obj.Get(iface, name, dbus_interface=dbus.PROPERTIES_IFACE)
 
 def _async_get(func, iface, name, path):
