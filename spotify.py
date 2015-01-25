@@ -9,13 +9,13 @@ def toggle_meta_info():
     _spotify_player('GetMetadata', _handle_meta_data_reply)
 
 def _handle_meta_data_reply(info):
-    artist = ', '.join((str(s) for s in info['xesam:artist']))
-    album = str(info['xesam:album'])
-    title = str(info['xesam:title'])
+    artist = ', '.join((s for s in info['xesam:artist']))
+    album = info['xesam:album']
+    title = info['xesam:title']
     year = str(info['xesam:contentCreated'])[:4]
     length = long(info['mpris:length']) / 1000000L
     max_width = max(16, len(title), len(album) + 7, len(artist))
-    dialog('Spotify%0*s\n%s\n%s\n%s (%s)\n\n%s'
+    dialog(u'Spotify%0*s\n%s\n%s\n%s (%s)\n\n%s'
         % (max_width - 7, '[%02d:%02d]' % (length / 60, length % 60),
            '-' * max_width, artist, album, year, title) , __name__)
 
