@@ -19,14 +19,12 @@ class NXHandler(object):
         if self.mode == 2:
             setattr(keys, 'mode', 'main')
             self.mode = 0
-        win = Client(c)
         try:
+            win = Client(c)
             if win.label.startswith('NX - ') and win.fullscreen:
                 self.win = win
                 self.mode = 1
         except:
-            import sys
-            sys.stderr.write('Failed check_client: "%s"\n' % c)
             pass
 
     def check_area(self, a):
