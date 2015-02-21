@@ -115,4 +115,4 @@ def _format_time(amount, rate):
 def _find_path(path, target):
     if not path:
         path = _POWER_SUPPLY_PATH
-    return find(path, target, depth=3, followlinks=True)
+    return find(path, target, depth=1, followlinks=True)
