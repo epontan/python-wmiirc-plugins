@@ -60,6 +60,10 @@ class NXHandler(object):
         self.pos_nx = None
         self.pos_dpy = None
 
+    def toggle_fullscreen(self):
+        if self.win:
+            self.win.fullscreen = not self.win.fullscreen
+
 
 def _point(pattern, *cmd):
     m = pattern.search(call(*cmd))
