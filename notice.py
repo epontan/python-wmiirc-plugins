@@ -1,6 +1,6 @@
 from threading import Timer
 
-from pygmi import Button, events
+from pygmi import Button, events, client
 
 class Notice(object):
 
@@ -14,9 +14,6 @@ class Notice(object):
     def tick(self):
         self.button.label = ' '
 
-    def write(self, notice):
-        client.awrite('/event', 'Notice %s' % notice.replace('\n', ' '))
-
     def show(self, notice):
         if self.timer:
             self.timer.cancel()
@@ -26,3 +23,6 @@ class Notice(object):
             self.timer.start()
         except:
             pass
+
+def write(notice):
+    client.awrite('/event', 'Notice %s' % notice.replace('\n', ' '))
