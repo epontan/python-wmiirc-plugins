@@ -3,6 +3,7 @@ import dbus
 from plugins.dbus_instance import get_session_bus
 from plugins.dialog import check_dialog, dialog
 
+
 def toggle_meta_info():
     if check_dialog(__name__):
         return
@@ -40,17 +41,15 @@ def quit():
     _spotify_player('Quit')
 
 
-def _spotify_player(method, reply_handler=None):
-    if not reply_handler:
-        reply_handler = _handle_pass
+def _handle_pass(*args):
+    pass
+
+def _spotify_player(method, reply_handler=_handle_pass):
     try:
-        player = get_session_bus().get_object('com.spotify.qt', '/')
+        player = get_session_bus('com.spotify.qt', '/').get_interface(
+                    'org.freedesktop.MediaPlayer2')
         getattr(player, method)(
-                dbus_interface='org.freedesktop.MediaPlayer2',
                 reply_handler=reply_handler,
                 error_handler=_handle_pass)
     except:
         pass
-
-def _handle_pass(*args):
-    pass
