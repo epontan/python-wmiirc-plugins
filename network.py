@@ -91,7 +91,7 @@ class Wicd(object):
         bus.add_callback(self._status_changed, 'StatusChanged')
         bus.get_interface().GetConnectionStatus(
                 reply_handler=lambda args: self._status_changed(*args),
-                error_handler=lambda args: None)
+                error_handler=lambda args: self._error_handler(*args))
 
         def click_event(button):
             return Match('RightBarClick', button, self.button.real_name)
@@ -99,6 +99,10 @@ class Wicd(object):
         events.bind({
             click_event(_): lambda *a: self.toggle_dialog()
         })
+
+    def _error_handler(self, *args):
+        dialog('Error in Wicd: %s' % args, self,button.name,
+                colors=wmii.cache['urgentcolors'])
 
     def toggle_dialog(self):
         name = self.button.name
